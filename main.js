@@ -32,6 +32,17 @@ const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/Cadee's_data
 const SESSION_SECRET = process.env.SESSION_SECRET || 'default-secret';
 
 // ────────────────────────────────────────────────────────────────────────────
+// GLOBAL ERROR LOGGING
+// ────────────────────────────────────────────────────────────────────────────
+
+process.on('uncaughtException', err => {
+    console.error('❌ Uncaught Exception:', err);
+});
+process.on('unhandledRejection', err => {
+    console.error('❌ Unhandled Rejection:', err);
+});
+
+// ────────────────────────────────────────────────────────────────────────────
 // MIDDLEWARE
 // ────────────────────────────────────────────────────────────────────────────
 
@@ -76,6 +87,10 @@ mongoose.connection.on('error', err => {
 // ────────────────────────────────────────────────────────────────────────────
 // ROUTES
 // ────────────────────────────────────────────────────────────────────────────
+
+app.get('/health', (req, res) => {
+    res.send('OK');
+});
 
 app.get('/', async (req, res) => {
     try {
